@@ -38,8 +38,11 @@ if ARGV[1]
   output = File.open(ARGV[1], "w")
 end
 
-1.upto(excel.last_row) do |line|
-  output.write CSV.generate_line excel.row(line)
+excel.sheets.each do |sheet_name|
+  sheet = excel.sheet(sheet_name)
+  CSV.open(sheet_name + ".csv", "w") do |csv|
+    1.upto(sheet.last_row) do |line|
+      csv << sheet.row(line)
+    end
+  end
 end
-
-
